@@ -1,6 +1,7 @@
 package se.lexicon.marketplaceapi.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import se.lexicon.marketplaceapi.domain.dto.RoleDTOView;
 import se.lexicon.marketplaceapi.domain.dto.UserDTOForm;
 import se.lexicon.marketplaceapi.domain.dto.UserDTOView;
@@ -13,6 +14,7 @@ import se.lexicon.marketplaceapi.service.UserService;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
