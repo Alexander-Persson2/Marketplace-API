@@ -7,6 +7,8 @@ import se.lexicon.marketplaceapi.domain.dto.UserDTOForm;
 import se.lexicon.marketplaceapi.domain.dto.UserDTOView;
 import se.lexicon.marketplaceapi.domain.entity.Role;
 import se.lexicon.marketplaceapi.domain.entity.User;
+import se.lexicon.marketplaceapi.exception.DataDuplicateException;
+import se.lexicon.marketplaceapi.exception.DataNotFoundException;
 import se.lexicon.marketplaceapi.repository.RoleRepository;
 import se.lexicon.marketplaceapi.repository.UserRepository;
 import se.lexicon.marketplaceapi.service.UserService;
@@ -28,12 +30,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTOView register(UserDTOForm userDTOForm) {
         if (userRepository.findByEmail(userDTOForm.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email already exists");
+            throw new DataDuplicateException("Email already exists");
         }
 
         Set<Role> roles = userDTOForm.getRoles().stream()
                 .map(roleDTO -> roleRepository.findByName(roleDTO.getName())
-                        .orElseThrow(() -> new IllegalArgumentException("Role not found")))
+                        .orElseThrow(() -> new DataNotFoundException("Role not found")))
                         .collect(Collectors.toSet());
 
 
@@ -59,7 +61,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTOView getByEmail(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new DataNotFoundException("User not found"));
 
         return UserDTOView.builder()
                 .email(user.getEmail())
@@ -72,7 +74,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void disableByEmail(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new DataNotFoundException("User not found"));
         user.setExpired(true);
         userRepository.save(user);
     }
@@ -80,7 +82,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void enableByEmail(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new DataNotFoundException("User not found"));
         user.setExpired(false);
         userRepository.save(user);
     }
