@@ -1,4 +1,4 @@
-package startup;
+package se.lexicon.marketplaceapi.startup;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

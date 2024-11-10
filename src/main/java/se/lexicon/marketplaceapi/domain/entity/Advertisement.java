@@ -28,6 +28,8 @@ public class Advertisement {
     private LocalDateTime createdAt;
     @Column(nullable = false)
     private LocalDateTime expiryDate;
+    @Column(nullable = false)
+    private String category;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

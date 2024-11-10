@@ -16,7 +16,10 @@ public class AdvertisementDTOView {
     private String title;
     private String description;
     private Double price;
+    private String category;
     private LocalDateTime createdAt;
     private LocalDateTime expiryDate;
     private String userEmail;
+
+
 }

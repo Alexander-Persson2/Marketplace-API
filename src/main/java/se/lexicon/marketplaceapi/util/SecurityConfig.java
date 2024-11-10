@@ -1,4 +1,4 @@
-package util;
+package se.lexicon.marketplaceapi.util;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

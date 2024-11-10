@@ -27,7 +27,14 @@ public class AdvertisementDTOForm {
     @Future(message = "Expiry date must be in the future")
     private LocalDateTime expiryDate;
 
+    @NotBlank(message = "Category is required")
+    private String category;
+
     @NotBlank(message = "User email is required")
     @Email(message = "Invalid email format")
     private String userEmail;
+
+    @NotBlank(message = "Password is required")
+    private String password;
+
 }
