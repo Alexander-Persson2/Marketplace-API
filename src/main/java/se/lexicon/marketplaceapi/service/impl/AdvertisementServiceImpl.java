@@ -28,17 +28,26 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Override
     public AdvertisementDTOView createAd(AdvertisementDTOForm adDTO) {
-        // Find the user by email
-        User user = userRepository.findByEmail(adDTO.getUserEmail())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        // Create and save the advertisement
+        User user = userRepository.findByEmail(adDTO.getUserEmail())
+                .orElseGet(() -> {
+
+                    User newUser = new User();
+                    newUser.setEmail(adDTO.getUserEmail());
+                    newUser.setPassword(adDTO.getPassword());
+                    newUser.setFirstName("Placeholder");
+                    newUser.setLastName("User");
+                    return userRepository.save(newUser);
+                });
+
+
         Advertisement ad = Advertisement.builder()
                 .title(adDTO.getTitle())
                 .description(adDTO.getDescription())
                 .price(adDTO.getPrice())
                 .createdAt(LocalDateTime.now())
                 .expiryDate(adDTO.getExpiryDate())
+                .category(adDTO.getCategory())
                 .user(user)
                 .build();
 
@@ -51,6 +60,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                 .price(savedAd.getPrice())
                 .createdAt(savedAd.getCreatedAt())
                 .expiryDate(savedAd.getExpiryDate())
+                .category(savedAd.getCategory())
                 .userEmail(savedAd.getUser().getEmail())
                 .build();
     }
@@ -65,6 +75,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                         .price(ad.getPrice())
                         .createdAt(ad.getCreatedAt())
                         .expiryDate(ad.getExpiryDate())
+                        .category(ad.getCategory())
                         .userEmail(ad.getUser().getEmail())
                         .build())
                 .collect(Collectors.toList());
@@ -80,6 +91,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                         .price(ad.getPrice())
                         .createdAt(ad.getCreatedAt())
                         .expiryDate(ad.getExpiryDate())
+                        .category(ad.getCategory())
                         .userEmail(ad.getUser().getEmail())
                         .build())
                 .collect(Collectors.toList());

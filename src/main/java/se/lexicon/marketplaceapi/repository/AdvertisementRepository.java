@@ -18,4 +18,8 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, Lo
     List<Advertisement> findByUserEmail(String email);
 
     List<Advertisement> findByUser(User user);
+
+    default List<Advertisement> findActiveAds() {
+        return findByExpiryDateAfter(LocalDateTime.now());
+    }
 }
